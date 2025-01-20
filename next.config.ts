@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['static.nike.com', 'images.prodirectsport.com'], // Add both domains here
+  },
 };
 
 export default nextConfig;
