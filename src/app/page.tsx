@@ -13,14 +13,14 @@ export default function Home() {
   
   return (
     <div>
-     <Navbar/>
+   
      <HelloNikeText/>
      <VideoSection/>
      <LatestGreatest/>
      <TrendingInWeek/>
      <ExploreMore/>
      <Footer/>
-     <StaticFooter/>
+    
      
     </div>
   )}

@@ -1,261 +1,314 @@
-"use client"
-import React, { useState } from "react";
+import React from 'react'
 
-// Item Interface
-interface Item {
-  id: number;
-  name: string;
-  price: number;
-}
-
-// Cart Item Interface (with quantity)
-interface CartItem extends Item {
-  quantity: number;
-}
-
-// Billing and Shipping Address Interface
-interface Address {
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-}
-
-const Shop: React.FC = () => {
-  // Sample items available in the shop
-  const items: Item[] = [
-    { id: 1, name: "Nike Shoes", price: 120 },
-    { id: 2, name: "Adidas T-Shirt", price: 60 },
-    { id: 3, name: "Puma Cap", price: 30 },
-  ];
-
-  // Cart State
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  // Address State - Initialize with empty values to avoid null errors
-  const [address, setAddress] = useState<Address>({
-    name: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-  });
-
-  const [isCheckout, setIsCheckout] = useState(false);
-
-  // Add Item to Cart
-  const addItemToCart = (item: Item) => {
-    setCartItems((prevCartItems) => {
-      // Check if the item is already in the cart
-      const existingItem = prevCartItems.find((cartItem) => cartItem.id === item.id);
-
-      if (existingItem) {
-        // Update quantity for existing item
-        return prevCartItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        );
-      }
-
-      // Add new item to the cart
-      return [...prevCartItems, { ...item, quantity: 1 }];
-    });
-  };
-
-  // Calculate Total Price
-  const calculateTotalPrice = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
-  // Handle Checkout Button Click
-  const handleCheckout = () => {
-    setIsCheckout(true);
-  };
-
-  // Handle Form Submit (Mock API Request)
-  const handleAddressSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      const response = await mockAPIRequest(address);
-      alert("Checkout successful: " + response.message);
-      setIsCheckout(false);
-      setCartItems([]); // Clear cart after successful checkout
-    } catch (error) {
-      alert("Failed to submit address.");
-    }
-  };
-
-  // Mock API Function (Simulating a successful API request)
-  const mockAPIRequest = async (address: Address) => {
-    // Simulate an API request to submit the address
-    return new Promise<{ message: string }>((resolve, reject) => {
-      setTimeout(() => {
-        if (address.name && address.address && address.city && address.state && address.zip) {
-          resolve({ message: "Your order has been placed successfully!" });
-        } else {
-          reject(new Error("Missing address details"));
-        }
-      }, 2000); // Simulate a delay of 2 seconds for the mock API
-    });
-  };
-
+const page = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Shop Items */}
-      <h1 className="text-3xl font-bold mb-4">Shop Items</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
-          >
-            <h2 className="text-xl font-semibold">{item.name}</h2>
-            <p className="text-gray-600">${item.price.toFixed(2)}</p>
-            <button
-              onClick={() => addItemToCart(item)}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* Cart */}
-      <h2 className="text-3xl font-bold mt-10">Cart</h2>
-      {cartItems.length === 0 ? (
-        <p className="text-gray-600 mt-4">Your cart is empty.</p>
-      ) : (
-        <div className="mt-6 bg-white shadow-lg rounded-lg p-4">
-          <ul>
-            {cartItems.map((item) => (
-              <li
-                key={item.id}
-                className="flex justify-between items-center border-b py-2"
-              >
+    <div>
+      <div className="font-sans max-w-6xl max-lg:max-w-2xl mx-auto bg-white p-4 mt-6">
+  <div className="grid lg:grid-cols-2 gap-12">
+    <div>
+      <div className="bg-gray-100 p-6 rounded-md">
+        <h2 className="text-2xl font-bold text-gray-800">Your Cart</h2>
+        <div className="space-y-4 mt-8">
+          <div className="flex items-center gap-4">
+            <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+              <img
+                src="AllProducts/pro8.png"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="w-full">
+              <h3 className="text-base font-semibold text-gray-800">
+              Men Sneaker
+              </h3>
+              <h6 className="text-sm text-gray-800 font-bold cursor-pointer mt-0.5">
+                $18.00
+              </h6>
+              <div className="flex gap-4 mt-4">
                 <div>
-                  <p className="font-semibold">{item.name}</p>
-                  <p className="text-gray-600">
-                    ${item.price.toFixed(2)} x {item.quantity}
-                  </p>
+                  <button
+                    type="button"
+                    className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 124 124"
+                    >
+                      <path
+                        d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                    <span className="mx-2.5">1</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 42 42"
+                    >
+                      <path
+                        d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <p className="font-bold">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <div className="flex justify-between items-center mt-4">
-            <h3 className="text-xl font-bold">Total</h3>
-            <p className="text-xl font-bold">${calculateTotalPrice().toFixed(2)}</p>
+                <div className="ml-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 fill-red-500 inline cursor-pointer"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                      data-original="#000000"
+                    />
+                    <path
+                      d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                      data-original="#000000"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={handleCheckout}
-            className="mt-6 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            Checkout
-          </button>
+          <hr className="border-gray-300" />
+          <div className="flex items-center gap-4">
+            <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+              <img
+                src="/AllProducts/pro10.png"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="w-full">
+              <h3 className="text-base font-semibold text-gray-800">
+                Men's Blue T-shirt
+              </h3>
+              <h6 className="text-sm text-gray-800 font-bold cursor-pointer mt-0.5">
+                $90.00
+              </h6>
+              <div className="flex gap-4 mt-4">
+                <div>
+                  <button
+                    type="button"
+                    className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 124 124"
+                    >
+                      <path
+                        d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                    <span className="mx-2.5">1</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 42 42"
+                    >
+                      <path
+                        d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="ml-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 fill-red-500 inline cursor-pointer"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                      data-original="#000000"
+                    />
+                    <path
+                      d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                      data-original="#000000"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr className="border-gray-300" />
+          <div className="flex items-center gap-4">
+            <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+              <img
+                src="/ExploreMore/W+NSW+ESSNTL+OS+BOMBER.png"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="w-full">
+              <h3 className="text-base font-semibold text-gray-800">
+            Black Bomber
+              </h3>
+              <h6 className="text-sm text-gray-800 font-bold cursor-pointer mt-0.5">
+                $30.00
+              </h6>
+              <div className="flex gap-4 mt-4">
+                <div>
+                  <button
+                    type="button"
+                    className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 124 124"
+                    >
+                      <path
+                        d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                    <span className="mx-2.5">1</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-2.5 fill-current"
+                      viewBox="0 0 42 42"
+                    >
+                      <path
+                        d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
+                        data-original="#000000"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="ml-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 fill-red-500 inline cursor-pointer"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                      data-original="#000000"
+                    />
+                    <path
+                      d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                      data-original="#000000"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-
-      {/* Checkout Form (Billing and Shipping Address) */}
-      {isCheckout && (
-        <div className="mt-10 bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">
-          <h2 className="text-2xl font-bold mb-4">Billing and Shipping Address</h2>
-          <form onSubmit={handleAddressSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-600" htmlFor="name">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                onChange={(e) =>
-                  setAddress({ ...address, name: e.target.value })
-                }
-                value={address.name}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-600" htmlFor="address">
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                onChange={(e) =>
-                  setAddress({ ...address, address: e.target.value })
-                }
-                value={address.address}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-600" htmlFor="city">
-                City
-              </label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                onChange={(e) =>
-                  setAddress({ ...address, city: e.target.value })
-                }
-                value={address.city}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-600" htmlFor="state">
-                State
-              </label>
-              <input
-                type="text"
-                id="state"
-                name="state"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                onChange={(e) =>
-                  setAddress({ ...address, state: e.target.value })
-                }
-                value={address.state}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-600" htmlFor="zip">
-                ZIP Code
-              </label>
-              <input
-                type="text"
-                id="zip"
-                name="zip"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                onChange={(e) =>
-                  setAddress({ ...address, zip: e.target.value })
-                }
-                value={address.zip}
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Submit Address
-            </button>
-          </form>
-        </div>
-      )}
+      </div>
+      <div className="mt-4 flex flex-wrap justify-center gap-4">
+        <img
+          src="https://readymadeui.com/images/master.webp"
+          alt="card1"
+          className="w-12 object-contain"
+        />
+        <img
+          src="https://readymadeui.com/images/visa.webp"
+          alt="card2"
+          className="w-12 object-contain"
+        />
+        <img
+          src="https://readymadeui.com/images/american-express.webp"
+          alt="card3"
+          className="w-12 object-contain"
+        />
+      </div>
     </div>
-  );
-};
+    <form>
+      <h2 className="text-2xl font-bold text-gray-800">Payment Details</h2>
+      <div className="grid gap-4 mt-8">
+        <div>
+          <label className="block text-base text-gray-800 mb-2">
+            Card Holder Name
+          </label>
+          <input
+            type="text"
+            placeholder="John Doe"
+            className="px-4 py-2.5 bg-transparent text-gray-800 w-full text-sm border border-gray-300 rounded-md focus:border-purple-500 outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-base text-gray-800 mb-2">
+            Card Number
+          </label>
+          <div className="flex bg-transparent border border-gray-300 rounded-md focus-within:border-purple-500 overflow-hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 ml-3"
+              viewBox="0 0 32 20"
+            >
+              <circle
+                cx={10}
+                cy={10}
+                r={10}
+                fill="#f93232"
+                data-original="#f93232"
+              />
+              <path
+                fill="#fed049"
+                d="M22 0c-2.246 0-4.312.75-5.98 2H16v.014c-.396.298-.76.634-1.107.986h2.214c.308.313.592.648.855 1H14.03a9.932 9.932 0 0 0-.667 1h5.264c.188.324.365.654.518 1h-6.291a9.833 9.833 0 0 0-.377 1h7.044c.104.326.186.661.258 1h-7.563c-.067.328-.123.66-.157 1h7.881c.039.328.06.661.06 1h-8c0 .339.027.67.06 1h7.882c-.038.339-.093.672-.162 1h-7.563c.069.341.158.673.261 1h7.044a9.833 9.833 0 0 1-.377 1h-6.291c.151.344.321.678.509 1h5.264a9.783 9.783 0 0 1-.669 1H14.03c.266.352.553.687.862 1h2.215a10.05 10.05 0 0 1-1.107.986A9.937 9.937 0 0 0 22 20c5.523 0 10-4.478 10-10S27.523 0 22 0z"
+                className="hovered-path"
+                data-original="#fed049"
+              />
+            </svg>
+            <input
+              type="number"
+              placeholder="xxxx xxxx xxxx"
+              className="px-4 py-2.5 bg-transparent text-gray-800 w-full text-sm outline-none"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-base text-gray-800 mb-2">
+              Expiry Date
+            </label>
+            <input
+              type="number"
+              placeholder="08/27"
+              className="px-4 py-2.5 bg-transparent text-gray-800 w-full text-sm border border-gray-300 rounded-md focus:border-purple-500 outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-base text-gray-800 mb-2">CVV</label>
+            <input
+              type="number"
+              placeholder="XXX"
+              className="px-4 py-2.5 bg-transparent text-gray-800 w-full text-sm border border-gray-300 rounded-md focus:border-purple-500 outline-none"
+            />
+          </div>
+        </div>
+      </div>
+      <ul className="text-gray-800 mt-8 space-y-4">
+        <li className="flex flex-wrap gap-4 text-sm">
+          Subtotal <span className="ml-auto font-bold">$138.00</span>
+        </li>
+        <li className="flex flex-wrap gap-4 text-sm">
+          Discount <span className="ml-auto font-bold">$0.00</span>
+        </li>
+        <li className="flex flex-wrap gap-4 text-sm">
+          Tax <span className="ml-auto font-bold">$4.00</span>
+        </li>
+        <hr className="border-gray-300" />
+        <li className="flex flex-wrap gap-4 text-sm font-bold">
+          Total <span className="ml-auto">$142.00</span>
+        </li>
+      </ul>
+      <button
+        type="button"
+        className="mt-8 text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-purple-600 hover:bg-purple-700 text-white rounded-md"
+      >
+        Make Payment
+      </button>
+    </form>
+  </div>
+</div>
 
-export default Shop;
+    </div>
+  )
+}
+
+export default page

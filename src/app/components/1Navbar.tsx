@@ -1,14 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { CiSearch } from "react-icons/ci";
-import {  FaBars } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { PiGiftLight } from "react-icons/pi";
-import { BsBag } from 'react-icons/bs';
+import { BsBag } from "react-icons/bs";
 import { useState } from "react";
+import SearchBar from '../components/Reusablecomponent/SearchbarComponent'; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleSearch = (searchTerm: string) => {
+    console.log('Search Term:', searchTerm);
+    // Implement your search logic here
+  };
 
   return (
     <div>
@@ -63,18 +68,21 @@ const Navbar = () => {
             alt="Nike Logo"
             width={80}
             height={80}
-            className="cursor-pointer  "
+            className="cursor-pointer"
           />
 
           {/* Navigation Links */}
           <nav className="hidden sm:flex space-x-8 text-gray-800 text-base font-semibold">
+          <Link href="/" className="hover:text-gray-500">
+              Home
+            </Link>
             <Link href="/news" className="hover:text-gray-500">
               New & Featured
             </Link>
             <Link href="/men" className="hover:text-gray-500">
               Men
             </Link>
-            <Link href="/women" className="hover:text-gray-500">
+            <Link href="/overallproducts" className="hover:text-gray-500">
               Women
             </Link>
             <Link href="/kids" className="hover:text-gray-500">
@@ -87,28 +95,15 @@ const Navbar = () => {
 
           {/* Search & Icons */}
           <div className="flex items-center space-x-6 mt-4 sm:mt-0">
-            <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 w-full max-w-xs sm:max-w-sm">
-              <CiSearch className="text-gray-500 text-lg" />
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-transparent text-sm outline-none pl-2 w-full"
-                aria-label="Search"
-              />
-            </div>
-            <Link href="/gifts
-">
-    
-        <PiGiftLight  className="text-gray-600 text-xl cursor-pointer" aria-label="GiftVouchers" />
-      
-    </Link>
+            <SearchBar  /> {/* Render the SearchBar component */}
 
-    <Link href="/cart
-">
-    
-        <BsBag className="text-gray-600 text-xl cursor-pointer" aria-label="GiftVouchers" />
-      
-    </Link>
+            <Link href="/gifts">
+              <PiGiftLight className="text-gray-600 text-xl cursor-pointer" aria-label="GiftVouchers" />
+            </Link>
+
+            <Link href="/cart">
+              <BsBag className="text-gray-600 text-xl cursor-pointer" aria-label="Cart" />
+            </Link>
           </div>
         </div>
       </header>

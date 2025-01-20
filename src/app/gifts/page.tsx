@@ -75,7 +75,7 @@ const GiftCardVoucher = () => {
           <div className="text-center">
             <button
               onClick={handlePurchase}
-              className="w-full py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors"
+              className="w-full py-3 bg-gray-500 text-white rounded hover:bg-gray-800 transition-colors"
             >
               Purchase Gift Card
             </button>
@@ -83,7 +83,7 @@ const GiftCardVoucher = () => {
 
           {/* Voucher Redemption */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-center">Enter Your Voucher Code</h3>
+            <h3 className="text-lg font-bold text-center">Enter Your Voucher Code</h3>
             <input
               type="text"
               value={redeemCode}
